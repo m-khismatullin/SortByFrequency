@@ -13,24 +13,17 @@ public class stepik230530t3 {
             stringBuilder.append(scanner.nextLine());
         }
 
-        String dataString = stringBuilder.toString()
-                .toLowerCase()
-                .chars()
-                .map(c -> Character.isLetterOrDigit(c) || c == 32 ? c : 32)
-                .mapToObj(c -> String.valueOf((char) c))
-                .collect(Collectors.joining());
-        System.out.println(dataString);
-
-
-        Map<String, Long> frequencyMap = stream(dataString.split(" "))
-                .collect(Collectors.groupingBy(e -> e, Collectors.counting()));
-        System.out.println(frequencyMap);
-
-        String finalString = frequencyMap.entrySet().stream()
-                .sorted(Map.Entry.<String, Long>comparingByValue().reversed().thenComparing(Map.Entry.<String, Long>comparingByKey()))
-                .limit(11)
-                .map(e -> e.getKey())
-                .collect(Collectors.joining("\n"));
+        String finalString = stream(stringBuilder.toString()
+                .toLowerCase() // без учета регистра
+                .chars() // Stream int-ов
+                .map(c -> Character.isLetterOrDigit(c) || c == 32 ? c : 32) // оставляю символы из множества буквы, цифры и пробел
+                .mapToObj(c -> String.valueOf((char) c)) // преобразовываю в Stream строк
+                .collect(Collectors.joining()).split(" ")) // преобразовываю в строку и далее в строковый Stream
+                .collect(Collectors.groupingBy(e -> e, Collectors.counting())).entrySet().stream() // группирую по словам преобразовываю в Map (слово, частота) и далее в Stream Map-ов
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed().thenComparing(Map.Entry.<String, Long>comparingByKey())) // сортирую по значению по убыванию и потом по ключу
+                .map(e -> e.getKey()) // преобразовываю в Stream строк (оставляя только ключ)
+                .limit(11) // вывожу первых 10 слов
+                .collect(Collectors.joining("\n")); // объединяю с разделителем "новая строка"
         System.out.println(finalString);
 
     }
