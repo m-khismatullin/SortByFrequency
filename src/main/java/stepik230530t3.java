@@ -18,7 +18,7 @@ public class stepik230530t3 {
                 .chars() // Stream int-ов
                 .map(c -> Character.isLetterOrDigit(c) || c == 32 ? c : 32) // оставляю символы из множества буквы, цифры и пробел
                 .mapToObj(c -> String.valueOf((char) c)) // преобразовываю в Stream строк
-                .collect(Collectors.joining()).split(" ")) // преобразовываю в строку и далее в строковый Stream
+                .collect(Collectors.joining()).split(" ")) // преобразовываю в строку потом в масси строк и далее в строковый Stream
                 .collect(Collectors.groupingBy(e -> e, Collectors.counting())).entrySet().stream() // группирую по словам преобразовываю в Map (слово, частота) и далее в Stream Map-ов
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed().thenComparing(Map.Entry.<String, Long>comparingByKey())) // сортирую по значению по убыванию и потом по ключу
                 .map(e -> e.getKey()) // преобразовываю в Stream строк (оставляя только ключ)
